@@ -17,11 +17,11 @@ class UUIDProperty(StrProperty):
         default = str(uuid.uuid4())
         super(StrProperty, self).__init__(str, required=required, default=default)
 
-    def validate():
-        if not super(Property, self).validate():
+    def validate(self, value):
+        if not super(Property, self).validate(value):
             return False
         try:
-            uuid_obj = UUID(uuid_to_test, version=version)
+            uuid_obj = UUID(value, version=version)
         except ValueError:
             return False
         return True

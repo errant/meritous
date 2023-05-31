@@ -9,8 +9,8 @@ import meritous.exceptions
 
 def test_property_basics():
     p = meritous.core.Property(str, data.TEST_STR)
-    assert p.value ==  data.TEST_STR
-    assert p._type == str
+    assert p.default ==  data.TEST_STR
+    assert p.type == str
     p.value = data.TEST_STR_ALT
     assert p.value == data.TEST_STR_ALT
 
@@ -22,9 +22,7 @@ def test_property_required():
 
 def test_property_init_no_default():
     p = meritous.core.Property(str)
-    assert p.value == None
-    p.value = data.TEST_STR
-    assert p.value == data.TEST_STR
+    assert p.default == None
 
 def test_property_init_incorrect_default_type():
     with pytest.raises(meritous.exceptions.PropertyException):
@@ -32,17 +30,5 @@ def test_property_init_incorrect_default_type():
 
 def test_property_validate():
     p = meritous.core.Property(str, data.TEST_STR)
-    assert p.validate() == True
-    p.value = data.TEST_STR_ALT
-    assert p.validate() == True
-
-def test_property_init_without_validation():
-    p = meritous.core.Property(str, data.TEST_INT,validate_on_set=False)
-    assert p.validate() == False
-    assert p.value == data.TEST_INT
-    p.value = data.TEST_STR
-    assert p.validate() == True
-    assert p.value == data.TEST_STR
-    p.value = data.TEST_INT
-    assert p.validate() == False
-    assert p.value == data.TEST_INT
+    assert p.validate(data.TEST_STR_ALT) == True
+    assert p.validate(data.TEST_INT) == False
