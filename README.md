@@ -1,3 +1,6 @@
+![PyPI](https://img.shields.io/pypi/v/meritous?style=for-the-badge)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/meritous?style=for-the-badge)
+![PyPI - License](https://img.shields.io/pypi/l/meritous?style=for-the-badge)
 ![Codecov](https://img.shields.io/codecov/c/github/errant/meritous?style=for-the-badge)
 ![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/errant/meritous?style=for-the-badge)
 
