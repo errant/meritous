@@ -1,3 +1,4 @@
-[![codecov](https://codecov.io/github/errant/meritous/branch/main/graph/badge.svg?token=PND18O5UET)](https://codecov.io/github/errant/meritous)
+![Codecov](https://img.shields.io/codecov/c/github/errant/meritous?style=for-the-badge)
+![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/errant/meritous?style=for-the-badge)
 
 # Meritous
