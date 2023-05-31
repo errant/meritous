@@ -14,8 +14,8 @@ class StrProperty(Property):
 class UUIDProperty(StrProperty):
 
     def __init__(self, required=True):
-        super(StrProperty, self).__init__(str, required=required, default=str(uuid.uuid4()))
-
+        default = str(uuid.uuid4())
+        super(StrProperty, self).__init__(str, required=required, default=default)
 
     def validate():
         if not super(Property, self).validate():

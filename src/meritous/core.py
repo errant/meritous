@@ -1,6 +1,7 @@
 
 from .exceptions import PropertyException, SchemaException, ModelException
 
+
 class Property:
     _value = None
     _type = None
@@ -10,7 +11,7 @@ class Property:
     def __init__(self, type, default=None, required=True, validate_on_set=True):
 
         self._type = type
-        self.validate_on_set= validate_on_set
+        self.validate_on_set = validate_on_set
         self._required = required
 
         if default:
@@ -45,7 +46,6 @@ class Schema(dict):
 
     def marshall(self, store):
         return map(lambda name, property: store.marshall(property.value), self.items())
-
 
     def validate(self):
         for property_name, property in self.items():
