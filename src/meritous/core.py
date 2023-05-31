@@ -45,7 +45,7 @@ class Schema(dict):
         self.update(*args, **kwargs)
 
     def marshall(self, store):
-        return map(lambda name, property: store.marshall(property.value), self.items())
+        return {name: store.marshall(property.value) for name, property in self.items()}
 
     def validate(self):
         for property_name, property in self.items():
@@ -60,10 +60,10 @@ class Model:
     _data = None
 
     def marshall(self, store):
-        return self._schema._storage_representation(store)
+        return self._schema.marshall(store)
 
     def validate(self):
-        self._schema.validate()
+        return self._schema.validate()
 
     def __getattr__(self, name):
         if name in self._schema:

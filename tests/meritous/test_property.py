@@ -14,6 +14,12 @@ def test_property_basics():
     p.value = data.TEST_STR_ALT
     assert p.value == data.TEST_STR_ALT
 
+def test_property_required():
+    p = meritous.core.Property(str)
+    assert p.is_required == True
+    p = meritous.core.Property(str, required=False)
+    assert p.is_required == False
+
 def test_property_init_no_default():
     p = meritous.core.Property(str)
     assert p.value == None
