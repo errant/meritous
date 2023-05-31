@@ -19,7 +19,7 @@ test = [
 doc = ["sphinx"]
 
 [project.urls]
-Home = "https://libs.errant.me.uk/meritous"
+Home = "https://meritous.readthedocs.io/en/latest/"
 
 
 [tool.coverage.paths]
