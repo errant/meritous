@@ -16,6 +16,44 @@ To use Meritous, first install it using pip:
 
    (.venv) $ pip install meritous
 
+Sample Usage
+------------
+
+Here is an example demonstrating a full use case for Meritous (utilising optional integrations for AWS DynamoDB).
+
+.. code-block:: python
+
+  from meritous import Model
+  from meritous.properties import UUIDProperty, StrProperty, DateProperty
+
+  from meritous.aws.stores.dynamodb import DynamoDBStore
+
+  import boto3, datetime
+
+  class EventModel(Model):
+
+      _schema = {
+          "id"    : UUIDProperty(),
+          "title" : StrProperty(),
+          "date"  : DateProperty()
+      }
+
+
+  event = Event()
+  event.title = 'Sample Event'
+  event.date = datetime.date.fromisoformat('2023-01-10')
+
+  dynamodb = boto3.resource('dynamodb')
+
+  store = DynamoDBStore(dynamodb.Table('sample_event_table'))
+
+  store.save(KeyProperties=['id'], Item=event)
+
+  event_recover = store.get(Key={'id' : event.id}, Model=EventModel)
+
+  print(event.id == event_recover.id)
+
+
 
 .. toctree::
    :maxdepth: 2
@@ -24,3 +62,6 @@ To use Meritous, first install it using pip:
    Home <self>
    start
    concepts
+   properties
+   stores
+   extensions
