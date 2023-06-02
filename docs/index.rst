@@ -1,20 +1,26 @@
-.. Meritous documentation master file, created by
-   sphinx-quickstart on Fri Jun  2 06:33:09 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Meritous provides simple Python Models
+======================================
 
-Welcome to Meritous's documentation!
-====================================
+Meritous is an absurdly simply approach to "Models" in Python. It came about because there is no modern, framework agnostic approach to modelling data.
+
+On the face of it the usage is very trivial; but the intent is that Meritous is a building block for more complex data models. Essentially, it provides a simple Model class which can contain data to be used in Python applications. It then sets out a standard practice for transforming that data for storage or transport.
+
+.. _installation:
+
+Installation
+------------
+
+To use Meritous, first install it using pip:
+
+.. code-block:: console
+
+   (.venv) $ pip install meritous
+
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   Home <self>
+   start
+   concepts

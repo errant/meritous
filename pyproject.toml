@@ -19,10 +19,14 @@ test = [
     "pytest >=5.3.2",
     "pytest-cov",
 ]
-doc = ["sphinx"]
+doc = [
+  "sphinx",
+  "sphinx-rtd-theme"
+  ]
 
 [project.urls]
 Home = "https://meritous.readthedocs.io/en/latest/"
+GitHub =  "https://github.com/foobar/foobar/"
 
 
 [tool.coverage.paths]
