@@ -31,3 +31,9 @@ class DateProperty(Property):
 
     def __init__(self, **kwargs):
         super().__init__(datetime.date, **kwargs)
+
+
+class IntProperty(Property):
+
+    def __init__(self, **kwargs):
+        super().__init__(int, **kwargs)
