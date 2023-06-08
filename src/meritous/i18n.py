@@ -1,6 +1,8 @@
-import os, locale
+import os
+import locale
 import toml
 from dotmap import DotMap
+
 
 def get_locale_file():
     lang_code, encoding = locale.getdefaultlocale()
@@ -8,5 +10,6 @@ def get_locale_file():
     with open('{0}/i18n_data/{1}.toml'.format(os.path.dirname(__file__), lang_code)) as f:
         data = toml.load(f)
         return DotMap(data)
+
 
 text = get_locale_file()
