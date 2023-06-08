@@ -29,6 +29,10 @@ def test_model_init():
     assert isinstance(m._schema, Schema)
     assert m.TEST == data.TEST_INT
 
+def test_model_init_invalid_schema():
+    with pytest.raises(meritous.exceptions.ModelException):
+        m = ModelTest(_schema=1)
+
 
 def test_model_marshall():
     class MockStore:

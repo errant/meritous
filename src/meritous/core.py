@@ -3,7 +3,7 @@ meritous.core
 ====================================
 Meritous provides simple python modules
 """
-from .exceptions import PropertyException, SchemaException, ModelException
+from .exceptions import PropertyException, ModelException
 from .i18n import text
 
 
@@ -103,7 +103,7 @@ class Model:
     def __init__(self, _schema=None):
         self._schema = _schema if _schema else self._schema
         if type(self._schema) != dict:
-            raise ModelException('Schema definition is not possible to be created for Model {0}'.format(self.__class__.__name__))
+            raise ModelException(text.error.model.schema.format(self.__class__.__name__))
         self._schema = Schema(**self._schema)
         self._data = {name: property.default for name, property in  self._schema.items()}
 
@@ -150,7 +150,7 @@ class Model:
         if name != '_data' and name in self._data:
             print(self._schema[name])
             if not self._schema[name].validate(value):
-                raise PropertyException("{0} attempted to set value {1} which doesn't match property type {2}".format(self.__class__.__name__, value, self._type,  self._schema[name]._type))
+                raise PropertyException(text.error.prop.set.format(self.__class__.__name__, value, self._type,  self._schema[name]._type))
             self._data[name] = value
         else:
             self.__dict__[name] = value
