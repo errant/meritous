@@ -13,10 +13,6 @@ class ModelTest(Model):
         data.TEST_STR : Property(str, data.TEST_STR_ALT)
     }
 
-class ModelTestWithoutSchema(Model):
-    pass
-
-
 def test_model_init():
     m = ModelTest()
     assert isinstance(m._schema, Schema)
@@ -32,6 +28,11 @@ def test_model_init():
 def test_model_init_invalid_schema():
     with pytest.raises(meritous.exceptions.ModelException):
         m = ModelTest(_schema=1)
+
+def test_model_invalid_setattr():
+    m = ModelTest()
+    with pytest.raises(meritous.exceptions.PropertyException):
+        m.TEST = data.TEST_INT
 
 
 def test_model_marshall():

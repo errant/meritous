@@ -111,7 +111,6 @@ class Model:
         """
         return {name: store.marshall(property, self._schema[name]) for name, property in self._data.items()}
 
-
     def __getattr__(self, name):
         """
             Allows access to a Model's properties as a class attribute
