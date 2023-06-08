@@ -4,6 +4,7 @@ meritous.core
 Meritous provides simple python modules
 """
 from .exceptions import PropertyException, SchemaException, ModelException
+from .i18n import text
 
 
 class Property:
@@ -28,7 +29,7 @@ class Property:
         self._required = required
 
         if default and not self.validate(default):
-            raise PropertyException("{0} default value has incorrect type {1}".format(self.__class__.__name__,type(default)))
+            raise PropertyException(text.error.prop.type.format(self.__class__.__name__,type(default)))
 
         self._default = default
 
@@ -115,7 +116,7 @@ class Model:
             store
                 The Store object used to marshall the properties of a Model
         """
-        return {name: store.marshall(property) for name, property in self._data.items()}
+        return {name: store.marshall(property, self._schema[name]) for name, property in self._data.items()}
 
     #def validate(self):
     #    """
@@ -160,8 +161,8 @@ class Store:
     def save(self, **kwargs):
         pass
 
-    def marshall(self, value):
-        return str(value)
+    def marshall(self, value, property):
+        pass
 
     @staticmethod
     def load(self, **kwargs):
