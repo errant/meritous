@@ -32,7 +32,7 @@ def test_model_init():
 
 def test_model_marshall():
     class MockStore:
-        def marshall(self, value):
+        def marshall(self, value, property):
             return value + data.TEST_STR
     m = ModelTest()
     assert m.TEST == data.TEST_STR_ALT
