@@ -56,11 +56,11 @@ class Property:
     @property
     def type(self):
         return self._type
-    
+
     @property
     def name(self):
         return self._name
-    
+
     def _add_name(self, name):
         self._name = name
 
