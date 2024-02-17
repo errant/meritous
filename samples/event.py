@@ -5,14 +5,14 @@ Meritous Example: Event Model
 
 """
 from meritous import Model
-from meritous.properties import UUIDProperty, StrProperty, DateProperty
+from meritous.properties import UUID4Property, StrProperty, DateProperty
 
 from datetime import date
 
 class EventModel(Model):
 
     _schema = {
-        "id"          : UUIDProperty(),
+        "id"          : UUID4Property(),
         "title"       : StrProperty(),
         "date"        : DateProperty(),
         "description" : StrProperty(),
@@ -25,3 +25,4 @@ event.date = date.fromisoformat('2023-01-10')
 print(event.id)
 print(event.title)
 print(event.date)
+print(event._schema['title'].name)

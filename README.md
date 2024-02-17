@@ -32,7 +32,7 @@ from datetime import date
 class EventModel(Model):
 
     _schema = {
-        "id"          : UUIDProperty(),
+        "id"          : UUID4Property(),
         "title"       : StrProperty(),
         "date"        : DateProperty(),
         "description" : StrProperty(),

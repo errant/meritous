@@ -32,3 +32,8 @@ def test_property_validate():
     p = meritous.core.Property(str, data.TEST_STR)
     assert p.validate(data.TEST_STR_ALT) == True
     assert p.validate(data.TEST_INT) == False
+
+def test_property_name():
+    p = meritous.core.Property(str, data.TEST_STR)
+    p._add_name(data.TEST_STR_ALT)
+    assert p.name == data.TEST_STR_ALT

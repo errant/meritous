@@ -3,7 +3,7 @@ meritous.core
 ====================================
 Meritous provides simple python modules
 """
-from .exceptions import PropertyException, ModelException
+from .exceptions import PropertyException, ModelException, SchemaException
 from .i18n import text
 
 
@@ -56,12 +56,23 @@ class Property:
     @property
     def type(self):
         return self._type
+    
+    @property
+    def name(self):
+        return self._name
+    
+    def _add_name(self, name):
+        self._name = name
 
 
 class Schema(dict):
 
     def __init__(self, *args, **kwargs):
         self.update(*args, **kwargs)
+        for name in self:
+            if not issubclass(self[name].__class__, Property):
+                raise SchemaException('Property {0} is not an implementation of meritous.Property'.format(name))
+            self[name]._add_name(name)
 
 
 class Model:
@@ -135,7 +146,6 @@ class Model:
                 Value to update
         """
         if name != '_data' and name in self._data:
-            print(self._schema[name])
             if not self._schema[name].validate(value):
                 raise PropertyException(text.error.prop.set.format(self.__class__.__name__, value, self._type, self._schema[name]._type))
             self._data[name] = value

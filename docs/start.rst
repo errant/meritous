@@ -18,7 +18,7 @@ Meritous can be used to quickly bootstrap simple Models with defined data elemen
   class EventModel(Model):
 
       _schema = {
-          "id"          : UUIDProperty(),
+          "id"          : UUID4Property(),
           "title"       : StrProperty(),
           "date"        : DateProperty(),
           "description" : StrProperty(),
