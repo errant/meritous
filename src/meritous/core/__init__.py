@@ -1,9 +1,9 @@
 """
-meritous.core
-====================================
-Meritous provides simple python modules
+Simple Python Models
 """
-from .exceptions import PropertyException, ModelException, SchemaException
+__version__ = "1.2.0"
+
+from .exceptions import *
 from .i18n import text
 
 
@@ -60,9 +60,19 @@ class Property:
     @property
     def name(self):
         return self._name
+    
+    @property 
+    def classname(self):
+        return self.__class__.__name__
 
     def _add_name(self, name):
         self._name = name
+
+    def serialize(self, value):
+        return self._type(value)
+    
+    def deserialize(self, value):
+        return self._type(value)
 
 
 class Schema(dict):
@@ -104,23 +114,15 @@ class Model:
     _schema = None
     _data = {}
 
-    def __init__(self, _schema=None):
+    def __init__(self, _schema=None, _data=None):
         self._schema = _schema if _schema else self._schema
         if type(self._schema) != dict:
             raise ModelException(text.error.model.schema.format(self.__class__.__name__))
         self._schema = Schema(**self._schema)
-        self._data = {name: property.default for name, property in self._schema.items()}
-
-    def marshall(self, store):
-        """
-            Marshall a model into a different representation (for storage or transport)
-
-            Parameters
-            ----------
-            store
-                The Store object used to marshall the properties of a Model
-        """
-        return {name: store.marshall(property, self._schema[name]) for name, property in self._data.items()}
+        if _data:
+            self._data = _data
+        else:
+            self._data = {name: property.default for name, property in self._schema.items()}
 
     def __getattr__(self, name):
         """
@@ -152,15 +154,57 @@ class Model:
         else:
             self.__dict__[name] = value
 
+    def items(self):
+        return self._data.items()
+    
+    @property
+    def schema(self):
+        return self._schema
+    
+    def validate(self):
+        for name, value in self._data.items():
+            if name not in self._schema:
+                raise ModelException(text.error.model.validate.format(name))
+            if not self._schema[name].validate(value):
+                property = self._schema[name]
+                raise PropertyException(text.error.prop.type.format(property.classname, property.type))
+        return True
+    
+    @classmethod
+    def new(cls, data):
+        return cls(_data=data)
+
+
+class Serializer:
+
+    def serialize(self, model):
+        """
+            Serialize a model into a different representation (for storage or transport)
+
+            Parameters
+            ----------
+            serializer
+                The Serialiser object used to marshall the properties of a Model
+        """
+        return {name: model.schema[name].serialize(value) for name, value in model.items()}
+
+    def deserialize(self, data, model):
+        def _deserialize(name, value, model):
+            if name not in model.schema:
+                raise SerializerException(text.error.serializer.schema.format(name))
+            return model.schema[name].deserialize(value)
+        return model.new({name: _deserialize(name, value, model) for name, value in data.items()})
+
+
 
 class Store:
 
-    def save(self, **kwargs):
-        pass
+    def __init__(self, model, serializer):
+        self.model = model 
+        self.serializer = serializer
 
-    def marshall(self, value, property):
-        pass
+    def save(self, model):
+        return self.serializer().serialize(model)
 
-    @staticmethod
-    def load(self, **kwargs):
-        pass
+    def load(self, data):
+        return self.serializer().deserialize(data, self.model())

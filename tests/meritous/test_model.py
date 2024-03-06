@@ -2,11 +2,10 @@
 
 import pytest
 
-import test_data as data
+import data
 
-from meritous import Model, Schema
-from meritous.core import Property
-import meritous.exceptions
+from meritous.core import Model, Schema, Property
+import meritous.core.exceptions
 
 class ModelTest(Model):
     _schema = {
@@ -26,21 +25,41 @@ def test_model_init():
     assert m.TEST == data.TEST_INT
 
 def test_model_init_invalid_schema():
-    with pytest.raises(meritous.exceptions.ModelException):
+    with pytest.raises(meritous.core.exceptions.ModelException):
         m = ModelTest(_schema=1)
 
 def test_model_invalid_setattr():
     m = ModelTest()
-    with pytest.raises(meritous.exceptions.PropertyException):
+    with pytest.raises(meritous.core.exceptions.PropertyException):
         m.TEST = data.TEST_INT
 
-
-def test_model_marshall():
-    class MockStore:
-        def marshall(self, value, property):
-            return value + data.TEST_STR
-    m = ModelTest()
+def test_model_init_with_data():
+    m = ModelTest(_data = {data.TEST_STR : data.TEST_STR_ALT})
     assert m.TEST == data.TEST_STR_ALT
-    d = m.marshall(MockStore())
-    assert type(d) == dict
-    assert d[data.TEST_STR] == data.TEST_STR_ALT + data.TEST_STR
+
+def test_model_items():
+    m = ModelTest(_data = {data.TEST_STR : data.TEST_STR_ALT})
+    assert m.items() == {data.TEST_STR : data.TEST_STR_ALT}.items()
+
+
+def test_model_get_schema():
+    m = ModelTest()
+    assert isinstance(m.schema, Schema)
+
+def test_model_validate():
+    m = ModelTest()
+    m.validate()
+
+def test_model_validate_invalid_value():
+    m = ModelTest(_data = {data.TEST_STR : data.TEST_INT})
+    with pytest.raises(meritous.core.exceptions.PropertyException):
+        m.validate()
+
+def test_model_validate_invalid_property():
+    m = ModelTest(_data = {data.TEST_STR_ALT : data.TEST_INT})
+    with pytest.raises(meritous.core.exceptions.ModelException):
+        m.validate()
+    
+def test_model_new():
+    m = ModelTest.new({data.TEST_STR : data.TEST_STR_ALT})
+    assert m.TEST == data.TEST_STR_ALT

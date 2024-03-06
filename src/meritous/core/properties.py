@@ -32,6 +32,12 @@ class DateProperty(Property):
     def __init__(self, **kwargs):
         super().__init__(datetime.date, **kwargs)
 
+    def serialize(self, value):
+        return str(value)
+    
+    def deserialize(self, value):
+        return self._type.fromisoformat(value)
+
 
 class IntProperty(Property):
 

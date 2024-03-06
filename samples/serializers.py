@@ -1,12 +1,12 @@
 """
 
-Meritous Example: Event Model
+Meritous Example: Serialization
 
 
 """
 from meritous.core import Model
 from meritous.core.properties import UUID4Property, StrProperty, DateProperty
-from meritous.core.serializers import JSONSerializer
+from meritous.core.serializers import JSONSerializer, TOMLSerializer
 
 from datetime import date
 
@@ -20,14 +20,21 @@ class EventModel(Model):
     }
 
 
+json_data = '{"id": "14992f46-67bd-4a7c-ab22-0209609109", "title": "Sample Event 2", "date": "2023-01-10", "description": "None"}'
+
+
 event = EventModel()
 event.title = 'Sample Event'
 event.date = date.fromisoformat('2023-01-10')
-print(event.id)
-print(event.title)
-print(event.date)
-print(event._schema['title'].name)
 
+print('JSON')
 serializer = JSONSerializer()
 print(serializer.serialize(event))
 
+print('JSON deserialize')
+event_two = serializer.deserialize(json_data, EventModel())
+print(event_two.id)
+
+print('TOML')
+serializer = TOMLSerializer()
+print(serializer.serialize(event))

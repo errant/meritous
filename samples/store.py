@@ -1,12 +1,13 @@
 """
 
-Meritous Example: Event Model
+Meritous Example: Store
 
 
 """
 from meritous.core import Model
 from meritous.core.properties import UUID4Property, StrProperty, DateProperty
 from meritous.core.serializers import JSONSerializer
+from meritous.core.stores import FileStore
 
 from datetime import date
 
@@ -20,14 +21,9 @@ class EventModel(Model):
     }
 
 
-event = EventModel()
-event.title = 'Sample Event'
-event.date = date.fromisoformat('2023-01-10')
+filestore = FileStore(model=EventModel, serializer=JSONSerializer)
+event = filestore.load('samples/event.json')
 print(event.id)
-print(event.title)
-print(event.date)
-print(event._schema['title'].name)
 
-serializer = JSONSerializer()
-print(serializer.serialize(event))
-
+filestore.save('/tmp/event.json', event)
+print('`cat /tmp/event.json`')

@@ -10,3 +10,6 @@ class SchemaException(Exception):
 
 class ModelException(Exception):
     pass
+
+class SerializerException(Exception):
+    pass

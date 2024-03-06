@@ -16,6 +16,9 @@ dependencies = [
       "dotmap"
 ]
 
+[tool.flit.module]
+name = "meritous.core"
+
 [project.optional-dependencies]
 test = [
     "pytest >=5.3.2",

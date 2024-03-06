@@ -2,18 +2,17 @@
 
 import pytest
 
-import test_data as data
+import data
 
-from meritous import Schema
-from meritous.core import Property
-import meritous.exceptions
+from meritous.core import Schema, Property
+import meritous.core.exceptions
 
 def test_schema_init():
     s = Schema(**{})
 
 
 def test_schema_invalid_property():
-    with pytest.raises(meritous.exceptions.SchemaException):
+    with pytest.raises(meritous.core.exceptions.SchemaException):
         s = Schema(**{ data.TEST_STR : data.TEST_INT })
 
 
