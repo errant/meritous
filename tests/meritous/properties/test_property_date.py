@@ -16,3 +16,13 @@ def test_date_default():
 def test_date_required():
     p = meritous.core.properties.DateProperty(required=True)
     assert p.is_required == True
+
+def test_date_serialize():
+    p = meritous.core.properties.DateProperty()
+    assert p.serialize(datetime.date.fromisoformat('2023-01-10')) == '2023-01-10'
+
+def test_date_deserialize():
+    p = meritous.core.properties.DateProperty()
+    v = p.deserialize('2023-01-10') 
+    assert type(v) == datetime.date
+    assert type(v) == p.type
