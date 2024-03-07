@@ -24,8 +24,8 @@ pip install meritous
 ## Basic Usage
 
 ```python
-from meritous import Model
-from meritous.properties import UUIDProperty, StrProperty, DateProperty
+from meritous.core import Model
+from meritous.core.properties import UUIDProperty, StrProperty, DateProperty
 
 from datetime import date
 

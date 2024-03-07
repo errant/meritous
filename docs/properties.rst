@@ -6,11 +6,11 @@ Properties are the data primitives of Meritous. Several are included as built-in
 Built-in Properties
 -------------------
 
-.. autoclass:: meritous.properties::StrProperty
+.. autoclass:: meritous.core.properties::StrProperty
 
-.. autoclass:: meritous.properties::IntProperty
+.. autoclass:: meritous.core.properties::IntProperty
 
-.. autoclass:: meritous.properties::UUID4Property
+.. autoclass:: meritous.core.properties::UUID4Property
 
 Creating additional Properties
 ------------------------------
@@ -21,7 +21,7 @@ Properties are created simply by sub-classing Property. For example, imagine we 
 
   from meritous.core import Property
 
-  class StrProperty:
+  class StrProperty(Property):
     pass
 
 
@@ -31,7 +31,7 @@ In itself this isn't very helpful other than giving our Property a special name.
 
   from meritous.core import Property
 
-  class StrProperty:
+  class StrProperty(Property):
 
     def __init__(self, **kwargs):
       super().__init__(str, **kwargs)
@@ -43,7 +43,7 @@ This is a very simple property for which the `validate` method will test values 
 
 .. code-block:: python
 
-  >>> from meritous.properties import StrProperty
+  >>> from meritous.core.properties import StrProperty
   >>> p = StrProperty()
   >>> p.validate('a string')
   'True'
@@ -96,7 +96,7 @@ This will now validate several ways.
 
 .. code-block:: python
 
-  >>> from meritous.properties import UUID4Property
+  >>> from meritous.core.properties import UUID4Property
   >>> import uuid
   >>> p = UUID4Property()
   >>> str(p.default)

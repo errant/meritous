@@ -9,8 +9,8 @@ There are only four main concepts in Meritous:
     Represents the expected data structure of a Model
 * Property
     The main data values of the Model referenced in a Schema
-* Store
-    Stores are used to transform models for storage or transport
+* Serializers
+    Serializers are used to transform models into different formats for storage
 
 
 Models

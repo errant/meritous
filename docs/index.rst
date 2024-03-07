@@ -23,10 +23,10 @@ Here is an example demonstrating a full use case for Meritous (utilising optiona
 
 .. code-block:: python
 
-  from meritous import Model
-  from meritous.properties import UUIDProperty, StrProperty, DateProperty
+  from meritous.core import Model
+  from meritous.core.properties import UUIDProperty, StrProperty, DateProperty
 
-  from meritous.aws.stores.dynamodb import DynamoDBStore
+  from meritous.aws.dynamodb import DynamodbStore, DynamodbSerializer
 
   import boto3, datetime
 
@@ -45,7 +45,7 @@ Here is an example demonstrating a full use case for Meritous (utilising optiona
 
   dynamodb = boto3.resource('dynamodb')
 
-  store = DynamoDBStore(dynamodb.Table('sample_event_table'))
+  store = DynamodbStore(dynamodb.Table('sample_event_table'), DynamodbSerializer)
 
   store.save(KeyProperties=['id'], Item=event)
 
