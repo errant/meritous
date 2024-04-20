@@ -1,7 +1,7 @@
 """
 Simple Python Models
 """
-__version__ = "1.2.0"
+__version__ = "1.2.1"
 
 from .exceptions import *
 from .i18n import text
@@ -18,7 +18,7 @@ class Property:
     default
         The default value for the property
     required
-        Indicates weather this property is a required value
+        Indicates whether this property is a required value
     """
     _type = None
     _default = None
