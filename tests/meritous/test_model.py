@@ -1,5 +1,3 @@
-
-
 import pytest
 
 import data
@@ -63,3 +61,13 @@ def test_model_validate_invalid_property():
 def test_model_new():
     m = ModelTest.new({data.TEST_STR : data.TEST_STR_ALT})
     assert m.TEST == data.TEST_STR_ALT
+
+def test_model_eq():
+    m = ModelTest.new({data.TEST_STR : data.TEST_STR_ALT})
+    m2 = ModelTest.new({data.TEST_STR : data.TEST_STR_ALT})
+    assert m == m2
+
+def test_model_not_eq():
+    m = ModelTest.new({data.TEST_STR : data.TEST_STR_ALT})
+    m2 = ModelTest.new({data.TEST_STR_ALT : data.TEST_STR})
+    assert m != m2

@@ -1,6 +1,6 @@
 
 [error.prop]
-type = "{0} default value has incorrect type {1}"
+type = "{0} default value has incorrect type (expected {1} but got {2})"
 set = "{0} attempted to set value {1} which doesn't match property type {2}"
 
 [error.model]

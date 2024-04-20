@@ -23,13 +23,15 @@ class Property:
     _type = None
     _default = None
     _required = None
+    _nullable = None
 
-    def __init__(self, type, default=None, required=True):
+    def __init__(self, type, default=None, required=True, nullable=False):
         self._type = type
         self._required = required
+        self._nullable = nullable
 
         if default and not self.validate(default):
-            raise PropertyException(text.error.prop.type.format(self.__class__.__name__, type(default)))
+            raise PropertyException(text.error.prop.type.format(self.__class__.__name__, type(default), type))
 
         self._default = default
 
@@ -43,11 +45,15 @@ class Property:
         value
             Value to be tested against the set Property type
         """
-        return type(value) == self._type
+        return True if self.is_nullable and value == None else type(value) == self._type
 
     @property
     def is_required(self):
         return self._required
+    
+    @property
+    def is_nullable(self):
+        return self._nullable
 
     @property
     def default(self):
@@ -69,10 +75,10 @@ class Property:
         self._name = name
 
     def serialize(self, value):
-        return self._type(value)
+        return None if self.is_nullable and value == None else  self._type(value)
     
     def deserialize(self, value):
-        return self._type(value)
+        return None if self.is_nullable and value == None else self._type(value)
 
 
 class Schema(dict):
@@ -154,6 +160,9 @@ class Model:
         else:
             self.__dict__[name] = value
 
+    def __eq__(self, other):
+        return self.items() == other.items()
+
     def items(self):
         return self._data.items()
     
@@ -167,7 +176,7 @@ class Model:
                 raise ModelException(text.error.model.validate.format(name))
             if not self._schema[name].validate(value):
                 property = self._schema[name]
-                raise PropertyException(text.error.prop.type.format(property.classname, property.type))
+                raise PropertyException(text.error.prop.type.format(property.name, property.type, type(value)))
         return True
     
     @classmethod
