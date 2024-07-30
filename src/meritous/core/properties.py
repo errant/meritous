@@ -33,6 +33,18 @@ class DateProperty(Property):
     
     def deserialize(self, value):
         return None if self.is_nullable and value == None else self._type.fromisoformat(value)
+    
+
+class DateTimeProperty(Property):
+
+    def __init__(self, **kwargs):
+        super().__init__(datetime.datetime, **kwargs)
+
+    def serialize(self, value):
+        return None if self.is_nullable and value == None else str(value)
+    
+    def deserialize(self, value):
+        return None if self.is_nullable and value == None else self._type.fromisoformat(value)
 
 class IntProperty(Property):
 
@@ -58,3 +70,11 @@ class ListProperty(Property):
 
     def __init__(self, **kwargs):
         super().__init__(list, **kwargs)
+
+class StrChoiceProperty(Property):
+    def __init__(self, choices, **kwargs):
+        self.choices = choices
+        super().__init__(str, **kwargs)
+
+    def validate(self, value):
+        return super().validate(value) and value in self.choices

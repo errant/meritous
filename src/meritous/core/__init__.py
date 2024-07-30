@@ -153,7 +153,7 @@ class Model:
             value
                 Value to update
         """
-        if name != '_data' and name in self._data:
+        if name in self._schema:
             if not self._schema[name].validate(value):
                 raise PropertyException(text.error.prop.set.format(self.__class__.__name__, value, self._type, self._schema[name]._type))
             self._data[name] = value
